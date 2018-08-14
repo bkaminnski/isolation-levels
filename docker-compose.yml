@@ -1,0 +1,23 @@
+version: '3'
+
+networks:
+  isolationlevel_network:
+
+services:
+
+  postgres:
+    container_name: postgres
+    image: bkaminnski/postgres-initializable
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      # Databases to initialize separated by space. For each database "db user"="db name"="SERVICE_NAME". Format: SERVICE1_NAME;DB1_PASSWORD SERVICE2_NAME;DB2_PASSWORD ...
+      - INITIAL_DATABASES=isolation;isolation
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+      # netcat state check port
+      - "8333"
+    command: postgres
+    networks:
+      isolationlevel_network:
