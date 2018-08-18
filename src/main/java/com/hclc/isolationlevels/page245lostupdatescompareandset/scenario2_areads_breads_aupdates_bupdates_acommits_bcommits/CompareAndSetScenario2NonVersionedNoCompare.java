@@ -1,6 +1,5 @@
 package com.hclc.isolationlevels.page245lostupdatescompareandset.scenario2_areads_breads_aupdates_bupdates_acommits_bcommits;
 
-import com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetNonVersionedPage;
 import com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetNonVersionedPageRepository;
 import com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetPage;
 import org.springframework.beans.factory.annotation.Autowired;
