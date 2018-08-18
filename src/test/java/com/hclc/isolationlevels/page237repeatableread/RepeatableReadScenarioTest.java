@@ -18,15 +18,15 @@ import static com.hclc.isolationlevels.page237repeatableread.RepeatableReadFlowC
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class RepeatableReadExampleTest extends IsolationLevelsApplicationTests {
+public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests {
 
     @Autowired
-    private RepeatableReadExample repeatableReadExample;
+    private RepeatableReadScenario example;
     private ThreadPoolExecutor executor;
 
     @BeforeEach
     public void setupAccounts() {
-        repeatableReadExample.reset();
+        example.reset();
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
     }
 
@@ -77,20 +77,20 @@ public class RepeatableReadExampleTest extends IsolationLevelsApplicationTests {
     }
 
     private Future<List<RepeatableReadAccount>> runExampleReadCommitted(RepeatableReadFlowControl flowControl) {
-        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> repeatableReadExample.readBalanceReadCommitted(flowControl));
+        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> example.readBalanceReadCommitted(flowControl));
         executor.execute(() -> {
             flowControl.waitUntilAccountAIsFound();
-            repeatableReadExample.processTransactionReadCommitted();
+            example.processTransactionReadCommitted();
             flowControl.transactionWasProcessed();
         });
         return readBalanceFuture;
     }
 
     private Future<List<RepeatableReadAccount>> runExampleRepeatableRead(RepeatableReadFlowControl flowControl) {
-        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> repeatableReadExample.readBalanceRepeatableRead(flowControl));
+        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> example.readBalanceRepeatableRead(flowControl));
         executor.execute(() -> {
             flowControl.waitUntilAccountAIsFound();
-            repeatableReadExample.processTransactionRepeatableRead();
+            example.processTransactionRepeatableRead();
             flowControl.transactionWasProcessed();
         });
         return readBalanceFuture;

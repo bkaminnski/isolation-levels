@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 @Component
-public class RepeatableReadExample {
+public class RepeatableReadScenario {
 
     private static final String ACCOUNT_A = "A";
     private static final int ACCOUNT_A_INITIAL_AMOUNT = 500;
