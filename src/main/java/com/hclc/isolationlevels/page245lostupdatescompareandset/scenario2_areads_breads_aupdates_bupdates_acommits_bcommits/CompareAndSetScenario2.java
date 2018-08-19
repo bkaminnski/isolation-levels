@@ -1,5 +1,6 @@
 package com.hclc.isolationlevels.page245lostupdatescompareandset.scenario2_areads_breads_aupdates_bupdates_acommits_bcommits;
 
+import com.hclc.isolationlevels.TransactionAbScenario;
 import com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetPage;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetPage.CONTENT_A;
 import static com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetPage.CONTENT_B;
 
-public abstract class CompareAndSetScenario2 {
+public abstract class CompareAndSetScenario2 implements TransactionAbScenario<CompareAndSetScenario2FlowControl> {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void runTransactionAReadCommitted(CompareAndSetScenario2FlowControl flowControl) {

@@ -6,6 +6,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class IsolationLevelsApplicationTests {
+public abstract class IsolationLevelsApplicationTests {
 
 }

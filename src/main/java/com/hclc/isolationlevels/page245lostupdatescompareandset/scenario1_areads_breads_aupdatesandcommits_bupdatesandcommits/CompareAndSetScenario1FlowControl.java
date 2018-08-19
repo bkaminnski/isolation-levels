@@ -1,8 +1,10 @@
 package com.hclc.isolationlevels.page245lostupdatescompareandset.scenario1_areads_breads_aupdatesandcommits_bupdatesandcommits;
 
+import com.hclc.isolationlevels.TransactionAbFlowControl;
+
 import java.util.concurrent.CountDownLatch;
 
-public class CompareAndSetScenario1FlowControl {
+public class CompareAndSetScenario1FlowControl implements TransactionAbFlowControl {
 
     private final CountDownLatch transactionABegan;
     private final CountDownLatch transactionAReadPage;

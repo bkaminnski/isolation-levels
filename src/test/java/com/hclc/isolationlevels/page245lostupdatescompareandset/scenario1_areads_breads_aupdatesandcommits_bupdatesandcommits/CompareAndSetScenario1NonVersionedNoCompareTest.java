@@ -1,6 +1,7 @@
 package com.hclc.isolationlevels.page245lostupdatescompareandset.scenario1_areads_breads_aupdatesandcommits_bupdatesandcommits;
 
-import com.hclc.isolationlevels.IsolationLevelsApplicationTests;
+import com.hclc.isolationlevels.TransactionAbScenario;
+import com.hclc.isolationlevels.TransactionAbTest;
 import com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetNonVersionedPage;
 import com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetNonVersionedScenariosSetup;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +19,7 @@ import static com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAn
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class CompareAndSetScenario1NonVersionedNoCompareTest extends IsolationLevelsApplicationTests {
+public class CompareAndSetScenario1NonVersionedNoCompareTest extends TransactionAbTest<CompareAndSetScenario1FlowControl> {
 
     @Autowired
     private CompareAndSetNonVersionedScenariosSetup scenarioSetup;
@@ -60,31 +61,16 @@ public class CompareAndSetScenario1NonVersionedNoCompareTest extends IsolationLe
         assertEquals(CONTENT_A, pageAtTheEnd.getContent());
     }
 
-    private void runTransactionAReadCommitted(CompareAndSetScenario1FlowControl flowControl) {
-        scenario.runTransactionAReadCommitted(flowControl);
-        flowControl.transactionAWasFinished();
-    }
-
-    private void runTransactionBReadCommitted(CompareAndSetScenario1FlowControl flowControl) {
-        flowControl.waitUntilTransactionAIsBegan();
-        scenario.runTransactionBReadCommitted(flowControl);
-    }
-
-    private void runTransactionARepeatableRead(CompareAndSetScenario1FlowControl flowControl) {
-        scenario.runTransactionARepeatableRead(flowControl);
-        flowControl.transactionAWasFinished();
-    }
-
-    private void runTransactionBRepeatableRead(CompareAndSetScenario1FlowControl flowControl) {
-        flowControl.waitUntilTransactionAIsBegan();
-        scenario.runTransactionBRepeatableRead(flowControl);
-    }
-
     private void unwrapException(Future<?> transactionFuture) throws Throwable {
         try {
             transactionFuture.get();
         } catch (ExecutionException e) {
             throw e.getCause();
         }
+    }
+
+    @Override
+    protected TransactionAbScenario<CompareAndSetScenario1FlowControl> getScenario() {
+        return scenario;
     }
 }
