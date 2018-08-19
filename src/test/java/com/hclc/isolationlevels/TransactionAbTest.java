@@ -1,5 +1,8 @@
 package com.hclc.isolationlevels;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 public abstract class TransactionAbTest<F extends TransactionAbFlowControl> extends IsolationLevelsApplicationTests {
 
     protected abstract TransactionAbScenario<F> getScenario();
@@ -22,5 +25,13 @@ public abstract class TransactionAbTest<F extends TransactionAbFlowControl> exte
     protected void runTransactionBRepeatableRead(F flowControl) {
         flowControl.waitUntilTransactionAIsBegan();
         getScenario().runTransactionBRepeatableRead(flowControl);
+    }
+
+    protected void unwrapException(Future<?> transactionFuture) throws Throwable {
+        try {
+            transactionFuture.get();
+        } catch (ExecutionException e) {
+            throw e.getCause();
+        }
     }
 }

@@ -64,12 +64,4 @@ public class CompareAndSetScenario1NonVersionedCompareOnContentTest extends Tran
     protected TransactionAbScenario<CompareAndSetScenario1FlowControl> getScenario() {
         return scenario;
     }
-
-    private void unwrapException(Future<?> transactionFuture) throws Throwable {
-        try {
-            transactionFuture.get();
-        } catch (ExecutionException e) {
-            throw e.getCause();
-        }
-    }
 }

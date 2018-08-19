@@ -62,14 +62,6 @@ public class CompareAndSetScenario2VersionedTest extends TransactionAbTest<Compa
         assertFalse(flowControl.transactionASawTransactionBUpdateComplete());
     }
 
-    private void unwrapException(Future<?> transactionFuture) throws Throwable {
-        try {
-            transactionFuture.get();
-        } catch (ExecutionException e) {
-            throw e.getCause();
-        }
-    }
-
     @Override
     protected TransactionAbScenario getScenario() {
         return scenario;

@@ -16,9 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetPage.CONTENT_A;
 import static com.hclc.isolationlevels.page245lostupdatescompareandset.CompareAndSetPage.CONTENT_B;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CompareAndSetScenario2NonVersionedCompareOnContentTest extends TransactionAbTest<CompareAndSetScenario2FlowControl> {
 
@@ -61,14 +59,6 @@ public class CompareAndSetScenario2NonVersionedCompareOnContentTest extends Tran
         CompareAndSetNonVersionedPage pageAtTheEnd = (CompareAndSetNonVersionedPage) scenario.read();
         assertEquals(CONTENT_A, pageAtTheEnd.getContent());
         assertFalse(flowControl.transactionASawTransactionBUpdateComplete());
-    }
-
-    private void unwrapException(Future<?> transactionFuture) throws Throwable {
-        try {
-            transactionFuture.get();
-        } catch (ExecutionException e) {
-            throw e.getCause();
-        }
     }
 
     @Override

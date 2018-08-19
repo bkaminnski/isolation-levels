@@ -61,14 +61,6 @@ public class CompareAndSetScenario1VersionedTest extends TransactionAbTest<Compa
         assertEquals(CONTENT_A, pageAtTheEnd.getContent());
     }
 
-    private void unwrapException(Future<?> transactionFuture) throws Throwable {
-        try {
-            transactionFuture.get();
-        } catch (ExecutionException e) {
-            throw e.getCause();
-        }
-    }
-
     @Override
     protected TransactionAbScenario getScenario() {
         return scenario;

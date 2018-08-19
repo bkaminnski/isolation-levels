@@ -64,14 +64,6 @@ public class WriteSkewScenarioVersionedOptimisticLockForceIncrementTest extends 
         assertDoctorsOnShift(shiftAtTheEnd, BOB, CAROL);
     }
 
-    private void unwrapException(Future<?> transactionFuture) throws Throwable {
-        try {
-            transactionFuture.get();
-        } catch (ExecutionException e) {
-            throw e.getCause();
-        }
-    }
-
     @Override
     protected TransactionAbScenario<WriteSkewFlowControl> getScenario() {
         return scenario;
