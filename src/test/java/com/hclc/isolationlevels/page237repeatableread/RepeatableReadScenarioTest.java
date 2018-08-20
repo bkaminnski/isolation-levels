@@ -45,7 +45,7 @@ public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests 
     @Test
     @DisplayName("When isolation level is read committed and optimistic lock is applied, " +
             "should prevent nonrepeatable read anomaly by throwing optimistic lock exception.")
-    public void whenReadCommittedAndOptimisticLock_shouldPreventNonrepeatableReadAnomalyByThrowingException() {
+    public void whenReadCommittedAndOptimisticLock_shouldPreventNonrepeatableReadAnomalyByThrowingOptimisticLockException() {
         RepeatableReadFlowControl flowControl = withOptimisticLock();
         Future<List<RepeatableReadAccount>> readBalanceFuture = runScenarioReadCommitted(flowControl);
 

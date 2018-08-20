@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.hclc.isolationlevels.page247writeskew.WriteSkewShift.CAROL;
 
-public class WriteSkewScenarioVersionedNoLockTest extends WriteSkewScenariosTest {
+public class WriteSkewScenarioVersionedNoExplicitLockTest extends WriteSkewScenariosTest {
 
     @Autowired
     private WriteSkewScenariosSetup scenarioSetup;
@@ -31,7 +31,7 @@ public class WriteSkewScenarioVersionedNoLockTest extends WriteSkewScenariosTest
     }
 
     @Test
-    public void writeSkewScenarioVersionedNoLockReadCommitted_invariantViolated() throws ExecutionException, InterruptedException {
+    public void writeSkewScenarioVersionedNoExplicitLockReadCommitted_invariantViolated() throws ExecutionException, InterruptedException {
         WriteSkewFlowControl flowControl = new WriteSkewFlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionAReadCommitted(flowControl));
@@ -45,7 +45,7 @@ public class WriteSkewScenarioVersionedNoLockTest extends WriteSkewScenariosTest
     }
 
     @Test
-    public void writeSkewScenarioVersionedNoLockRepeatableRead_invariantViolated() throws ExecutionException, InterruptedException {
+    public void writeSkewScenarioVersionedNoExplicitLockRepeatableRead_invariantViolated() throws ExecutionException, InterruptedException {
         WriteSkewFlowControl flowControl = new WriteSkewFlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionARepeatableRead(flowControl));

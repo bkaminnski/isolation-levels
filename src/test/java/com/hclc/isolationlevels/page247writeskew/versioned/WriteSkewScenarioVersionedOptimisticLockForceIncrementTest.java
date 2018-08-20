@@ -37,7 +37,7 @@ public class WriteSkewScenarioVersionedOptimisticLockForceIncrementTest extends 
     }
 
     @Test
-    public void writeSkewScenarioVersionedNoLockReadCommitted_invariantPreservedDueToExplicitOptimisticLock() throws ExecutionException, InterruptedException {
+    public void writeSkewScenarioVersionedOptimisticLockForceIncrementReadCommitted_invariantPreservedDueToExplicitOptimisticLock() throws ExecutionException, InterruptedException {
         WriteSkewFlowControl flowControl = new WriteSkewFlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionAReadCommitted(flowControl));
@@ -51,7 +51,7 @@ public class WriteSkewScenarioVersionedOptimisticLockForceIncrementTest extends 
     }
 
     @Test
-    public void writeSkewScenarioVersionedNoLockRepeatableRead_invariantPreservedDueToFailureToAcquireLockInDatabase_optimisticLockBeingOnlyExcuseForUpdate() throws ExecutionException, InterruptedException {
+    public void writeSkewScenarioVersionedOptimisticLockForceIncrementRepeatableRead_invariantPreservedDueToFailureToAcquireLockInDatabase_optimisticLockBeingOnlyExcuseForUpdate() throws ExecutionException, InterruptedException {
         WriteSkewFlowControl flowControl = new WriteSkewFlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionARepeatableRead(flowControl));
