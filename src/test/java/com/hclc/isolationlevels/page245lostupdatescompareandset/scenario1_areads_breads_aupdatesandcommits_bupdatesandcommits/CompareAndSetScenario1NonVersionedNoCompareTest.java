@@ -34,7 +34,7 @@ public class CompareAndSetScenario1NonVersionedNoCompareTest extends Transaction
     }
 
     @Test
-    public void scenario1NonVersionedNoCompareReadCommitted() throws ExecutionException, InterruptedException {
+    public void scenario1NonVersionedNoCompareReadCommitted_updateWasLost_noMechanismCouldHavePreventedIt() throws ExecutionException, InterruptedException {
         CompareAndSetScenario1FlowControl flowControl = new CompareAndSetScenario1FlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionAReadCommitted(flowControl));
@@ -48,7 +48,7 @@ public class CompareAndSetScenario1NonVersionedNoCompareTest extends Transaction
     }
 
     @Test
-    public void scenario1NonVersionedNoCompareRepeatableRead() throws ExecutionException, InterruptedException {
+    public void scenario1NonVersionedNoCompareRepeatableRead_lostUpdateWasPreventedDueToFailureToAcquireLockInDatabase() throws ExecutionException, InterruptedException {
         CompareAndSetScenario1FlowControl flowControl = new CompareAndSetScenario1FlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionARepeatableRead(flowControl));

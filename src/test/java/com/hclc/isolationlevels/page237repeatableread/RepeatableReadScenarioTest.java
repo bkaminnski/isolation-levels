@@ -21,12 +21,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests {
 
     @Autowired
-    private RepeatableReadScenario example;
+    private RepeatableReadScenario scenario;
     private ThreadPoolExecutor executor;
 
     @BeforeEach
     public void setupAccounts() {
-        example.reset();
+        scenario.reset();
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(2);
     }
 
@@ -35,7 +35,7 @@ public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests 
             "should demonstrate nonrepeatable read anomaly.")
     public void whenReadCommittedAndNoOptimisticLock_shouldDemonstrateNonrepeatableReadAnomaly() throws ExecutionException, InterruptedException {
         RepeatableReadFlowControl flowControl = withoutOptimisticLock();
-        Future<List<RepeatableReadAccount>> readBalanceFuture = runExampleReadCommitted(flowControl);
+        Future<List<RepeatableReadAccount>> readBalanceFuture = runScenarioReadCommitted(flowControl);
 
         List<RepeatableReadAccount> accounts = readBalanceFuture.get();
 
@@ -47,7 +47,7 @@ public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests 
             "should prevent nonrepeatable read anomaly by throwing optimistic lock exception.")
     public void whenReadCommittedAndOptimisticLock_shouldPreventNonrepeatableReadAnomalyByThrowingException() {
         RepeatableReadFlowControl flowControl = withOptimisticLock();
-        Future<List<RepeatableReadAccount>> readBalanceFuture = runExampleReadCommitted(flowControl);
+        Future<List<RepeatableReadAccount>> readBalanceFuture = runScenarioReadCommitted(flowControl);
 
         assertThrows(ObjectOptimisticLockingFailureException.class, () -> unwrapException(readBalanceFuture));
     }
@@ -57,7 +57,7 @@ public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests 
             "should prevent nonrepeatable read anomaly by reading both balances from before transaction.")
     public void whenRepeatableReadAndNoOptimisticLock_shouldPreventNonrepeatableReadAnomalyByReadingBothBalancesFromBeforeTransaction() throws ExecutionException, InterruptedException {
         RepeatableReadFlowControl flowControl = withoutOptimisticLock();
-        Future<List<RepeatableReadAccount>> readBalanceFuture = runExampleRepeatableRead(flowControl);
+        Future<List<RepeatableReadAccount>> readBalanceFuture = runScenarioRepeatableRead(flowControl);
 
         List<RepeatableReadAccount> accounts = readBalanceFuture.get();
 
@@ -67,30 +67,30 @@ public class RepeatableReadScenarioTest extends IsolationLevelsApplicationTests 
     @Test
     @DisplayName("When isolation level is repeatable read and optimistic lock is applied, " +
             "should prevent nonrepeatable read anomaly by reading both balances from before transaction ignoring optimistic lock.")
-    public void whenRepeatableReadAndNoOptimisticLock_shouldPreventNonrepeatableReadAnomalyByReadingBothBalancesFromBeforeTransactionIgnoringOptimisticLock() throws ExecutionException, InterruptedException {
+    public void whenRepeatableReadAndOptimisticLock_shouldPreventNonrepeatableReadAnomalyByReadingBothBalancesFromBeforeTransactionIgnoringOptimisticLock() throws ExecutionException, InterruptedException {
         RepeatableReadFlowControl flowControl = withOptimisticLock();
-        Future<List<RepeatableReadAccount>> readBalanceFuture = runExampleRepeatableRead(flowControl);
+        Future<List<RepeatableReadAccount>> readBalanceFuture = runScenarioRepeatableRead(flowControl);
 
         List<RepeatableReadAccount> accounts = readBalanceFuture.get();
 
         assertBalancesFor(accounts, 500, 500);
     }
 
-    private Future<List<RepeatableReadAccount>> runExampleReadCommitted(RepeatableReadFlowControl flowControl) {
-        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> example.readBalanceReadCommitted(flowControl));
+    private Future<List<RepeatableReadAccount>> runScenarioReadCommitted(RepeatableReadFlowControl flowControl) {
+        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> scenario.readBalanceReadCommitted(flowControl));
         executor.execute(() -> {
             flowControl.waitUntilAccountAIsFound();
-            example.processTransactionReadCommitted();
+            scenario.processTransactionReadCommitted();
             flowControl.transactionWasProcessed();
         });
         return readBalanceFuture;
     }
 
-    private Future<List<RepeatableReadAccount>> runExampleRepeatableRead(RepeatableReadFlowControl flowControl) {
-        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> example.readBalanceRepeatableRead(flowControl));
+    private Future<List<RepeatableReadAccount>> runScenarioRepeatableRead(RepeatableReadFlowControl flowControl) {
+        Future<List<RepeatableReadAccount>> readBalanceFuture = executor.submit(() -> scenario.readBalanceRepeatableRead(flowControl));
         executor.execute(() -> {
             flowControl.waitUntilAccountAIsFound();
-            example.processTransactionRepeatableRead();
+            scenario.processTransactionRepeatableRead();
             flowControl.transactionWasProcessed();
         });
         return readBalanceFuture;

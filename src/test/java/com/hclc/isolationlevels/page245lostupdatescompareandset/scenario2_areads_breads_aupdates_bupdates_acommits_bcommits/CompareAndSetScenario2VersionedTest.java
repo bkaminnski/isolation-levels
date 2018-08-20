@@ -33,7 +33,7 @@ public class CompareAndSetScenario2VersionedTest extends TransactionAbTest<Compa
     }
 
     @Test
-    public void scenario2VersionedReadCommitted() throws ExecutionException, InterruptedException {
+    public void scenario2VersionedReadCommitted_lostUpdateWasPreventedDueToOptimisticLock_andBKindlyWaitedUntilACommittedPreventingDirtyWrite() throws ExecutionException, InterruptedException {
         CompareAndSetScenario2FlowControl flowControl = new CompareAndSetScenario2FlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionAReadCommitted(flowControl));
@@ -48,7 +48,7 @@ public class CompareAndSetScenario2VersionedTest extends TransactionAbTest<Compa
     }
 
     @Test
-    public void scenario2VersionedRepeatableRead() throws ExecutionException, InterruptedException {
+    public void scenario2VersionedRepeatableRead_lostUpdateWasPreventedDueToFailureToAcquireLockInDatabase_andBKindlyWaitedUntilACommittedPreventingDirtyWrite() throws ExecutionException, InterruptedException {
         CompareAndSetScenario2FlowControl flowControl = new CompareAndSetScenario2FlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionARepeatableRead(flowControl));

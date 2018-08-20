@@ -34,7 +34,7 @@ public class CompareAndSetScenario1VersionedTest extends TransactionAbTest<Compa
     }
 
     @Test
-    public void scenario1VersionedReadCommitted() throws ExecutionException, InterruptedException {
+    public void scenario1VersionedReadCommitted_lostUpdateWasPreventedDueToOptimisticLock() throws ExecutionException, InterruptedException {
         CompareAndSetScenario1FlowControl flowControl = new CompareAndSetScenario1FlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionAReadCommitted(flowControl));
@@ -48,7 +48,7 @@ public class CompareAndSetScenario1VersionedTest extends TransactionAbTest<Compa
     }
 
     @Test
-    public void scenario1VersionedRepeatableRead() throws ExecutionException, InterruptedException {
+    public void scenario1VersionedRepeatableRead_lostUpdateWasPreventedDueToFailureToAcquireLockInDatabase() throws ExecutionException, InterruptedException {
         CompareAndSetScenario1FlowControl flowControl = new CompareAndSetScenario1FlowControl();
 
         Future<?> transactionAFuture = executor.submit(() -> runTransactionARepeatableRead(flowControl));
